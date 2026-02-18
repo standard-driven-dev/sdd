@@ -52,3 +52,45 @@ This allows teams to:
 Tests are automated whenever possible.  
 Audits can be performed by AI.  
 Humans intervene only when necessary — and at the right time.
+
+---
+
+## Spec structure
+
+The SDD specification is organized into modular YAML files:
+
+```
+spec/
+├── spec.yaml                    # Entry point
+├── catalog/
+│   ├── standards.yaml            # Standards catalog (ASVS, WCAG, GDPR...)
+│   ├── properties.yaml           # Atomic properties (300+)
+│   └── tools.yaml                # Verification tools
+├── mappings/
+│   ├── property_to_standard.yaml # Traceability
+│   └── property_verifications.yaml # How to verify each property
+└── activation/
+    └── mvp.yaml                 # Active scope
+```
+
+### Validation
+
+Spec files are validated automatically:
+
+```bash
+# Run validation locally
+python3 scripts/validate_spec.py
+
+# Check YAML syntax
+for f in spec/**/*.yaml; do
+  python3 -c "import yaml; yaml.safe_load(open('$f'))"
+done
+```
+
+Validation checks:
+- YAML syntax
+- ID patterns (`std:`, `prop:`, `tool:`)
+- Verification types
+- Referential integrity
+
+CI runs on every push/PR (`.github/workflows/validate-spec.yaml`).

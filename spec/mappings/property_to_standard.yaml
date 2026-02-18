@@ -1,0 +1,123 @@
+# Property to Standard Mappings
+# Reference: https://standard-driven.dev/spec/mappings/property_to_standard.yaml
+# Schema: ../schema/sdd-spec.schema.json
+# Purpose: Bidirectional traceability between properties and standard requirements
+
+mappings:
+
+  # ---------------------------------------------------------------------------
+  # ASVS V2 - Authentication
+  # ---------------------------------------------------------------------------
+  - property_id: prop:password_length_min_12
+    standard_id: std:owasp_asvs
+    requirement: V6.2.1
+
+  - property_id: prop:password_complexity
+    standard_id: std:owasp_asvs
+    requirement: V6.2.3
+
+  - property_id: prop:password_history
+    standard_id: std:owasp_asvs
+    requirement: V6.2.5
+
+  - property_id: prop:account_lockout
+    standard_id: std:owasp_asvs
+    requirement: V2.2.1
+
+  # ---------------------------------------------------------------------------
+  # ASVS V3 - Session Management
+  # ---------------------------------------------------------------------------
+  - property_id: prop:session_id_length
+    standard_id: std:owasp_asvs
+    requirement: V3.5.1
+
+  - property_id: prop:session_timeout
+    standard_id: std:owasp_asvs
+    requirement: V3.4.1
+
+  - property_id: prop:secure_cookie_flags
+    standard_id: std:owasp_asvs
+    requirement: V3.6.1
+
+  # ---------------------------------------------------------------------------
+  # ASVS V4 - Authorization
+  # ---------------------------------------------------------------------------
+  - property_id: prop:role_based_access
+    standard_id: std:owasp_asvs
+    requirement: V4.1.2
+
+  - property_id: prop:horizontal_privilege_escalation
+    standard_id: std:owasp_asvs
+    requirement: V4.1.3
+
+  - property_id: prop:tenant_isolation
+    standard_id: std:owasp_asvs
+    requirement: V4.1.1
+
+  # ---------------------------------------------------------------------------
+  # ASVS V5 - Input Validation
+  # ---------------------------------------------------------------------------
+  - property_id: prop:input_validation_server_side
+    standard_id: std:owasp_asvs
+    requirement: V5.1.1
+
+  - property_id: prop:sql_injection_prevention
+    standard_id: std:owasp_asvs
+    requirement: V5.3.1
+
+  - property_id: prop:xss_prevention
+    standard_id: std:owasp_asvs
+    requirement: V5.5.1
+
+  # ---------------------------------------------------------------------------
+  # WCAG 2.1 - Accessibility
+  # ---------------------------------------------------------------------------
+  - property_id: prop:img_has_alt
+    standard_id: std:wcag_2_1
+    requirement: 1.1.1
+
+  - property_id: prop:form_labels
+    standard_id: std:wcag_2_1
+    requirement: 1.3.1
+
+  - property_id: prop:keyboard_accessible
+    standard_id: std:wcag_2_1
+    requirement: 2.1.1
+
+  - property_id: prop:focus_visible
+    standard_id: std:wcag_2_1
+    requirement: 2.4.7
+
+  - property_id: prop:color_contrast
+    standard_id: std:wcag_2_1
+    requirement: 1.4.3
+
+  # ---------------------------------------------------------------------------
+  # GDPR - Privacy
+  # ---------------------------------------------------------------------------
+  - property_id: prop:data_minimization
+    standard_id: std:gdpr
+    requirement: Art. 5.1.c
+
+  - property_id: prop:right_to_erasure
+    standard_id: std:gdpr
+    requirement: Art. 17
+
+  - property_id: prop:consent_workflow
+    standard_id: std:gdpr
+    requirement: Art. 7
+
+  # ---------------------------------------------------------------------------
+  # Core Web Vitals - Performance
+  # ---------------------------------------------------------------------------
+  - property_id: prop:lcp_under_2_5s
+    standard_id: std:core_web_vitals
+    requirement: LCP
+
+  - property_id: prop:cls_under_0_1
+    standard_id: std:core_web_vitals
+    requirement: CLS
+
+  - property_id: prop:inp_under_200ms
+    standard_id: std:core_web_vitals
+    requirement: INP

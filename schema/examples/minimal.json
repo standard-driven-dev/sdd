@@ -1,0 +1,104 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-02-18",
+
+  "standards": [
+    {
+      "id": "std:owasp_asvs",
+      "name": "OWASP Application Security Verification Standard 5.0.0",
+      "issuer": "OWASP",
+      "version": "5.0.0",
+      "domain": "security",
+      "description": "A standard for secure web applications",
+      "url": "https://owasp.org/www-project-application-security-verification-standard/"
+    },
+    {
+      "id": "std:wcag_2_1",
+      "name": "Web Content Accessibility Guidelines 2.1 Level AA",
+      "issuer": "W3C",
+      "version": "2.1",
+      "domain": "accessibility",
+      "description": "Accessibility guidelines for web content",
+      "url": "https://www.w3.org/TR/WCAG21/"
+    }
+  ],
+
+  "tools": [
+    {
+      "id": "tool:sobelow",
+      "name": "Sobelow",
+      "type": "SAST",
+      "language": "Elixir",
+      "capabilities": ["XSS", "CSRF", "SQL injection", "Directory traversal"],
+      "ci_command": "mix sobelow --config",
+      "standards": ["std:owasp_asvs"]
+    },
+    {
+      "id": "tool:axe_core",
+      "name": "axe-core",
+      "type": "accessibility",
+      "capabilities": ["WCAG 1.1.1 alt text", "WCAG 1.4.3 contrast", "WCAG 2.1.1 keyboard"],
+      "ci_command": "npx playwright test",
+      "standards": ["std:wcag_2_1"]
+    }
+  ],
+
+  "properties": [
+    {
+      "id": "prop:password_length_min_12",
+      "name": "Password minimum length 12 characters",
+      "description": "Ensures all user passwords are at least 12 characters",
+      "standard_id": "std:owasp_asvs",
+      "requirement_ref": "V6.2.1",
+      "verification_type": "custom_property",
+      "severity": "high"
+    },
+    {
+      "id": "prop:img_has_alt",
+      "name": "Images have alt text",
+      "description": "All img elements must have alt attribute",
+      "standard_id": "std:wcag_2_1",
+      "requirement_ref": "1.1.1",
+      "verification_type": "library",
+      "severity": "critical"
+    }
+  ],
+
+  "mappings": [
+    {
+      "property_id": "prop:password_length_min_12",
+      "standard_id": "std:owasp_asvs",
+      "requirement": "V6.2.1"
+    },
+    {
+      "property_id": "prop:img_has_alt",
+      "standard_id": "std:wcag_2_1",
+      "requirement": "1.1.1"
+    }
+  ],
+
+  "verifications": [
+    {
+      "property_id": "prop:password_length_min_12",
+      "verification_type": "custom_property",
+      "test_module": "Rivena.ASVS.V2.ChapterTest",
+      "generator": "StreamData.string(:alphanumeric, length: 0..100)"
+    },
+    {
+      "property_id": "prop:img_has_alt",
+      "verification_type": "library",
+      "tool_id": "tool:axe_core"
+    }
+  ],
+
+  "activation": {
+    "standards": [
+      { "standard_id": "std:owasp_asvs", "status": "active", "rationale": "Core security requirements" },
+      { "standard_id": "std:wcag_2_1", "status": "active", "rationale": "Accessibility MVP" }
+    ],
+    "properties": [
+      { "property_id": "prop:password_length_min_12", "status": "active" },
+      { "property_id": "prop:img_has_alt", "status": "active" }
+    ]
+  }
+}

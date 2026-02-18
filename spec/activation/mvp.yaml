@@ -1,0 +1,66 @@
+# MVP Activation Scope
+# Reference: https://standard-driven.dev/spec/activation/mvp.yaml
+
+metadata:
+  version: "1.0.0"
+  created: "2026-02-18"
+  scope: "MVP"
+  rationale: |
+    Start with 7 core standards covering security, accessibility, privacy, performance, 
+    and quality. Expand to additional standards as the framework matures.
+
+# Active Standards (MVP)
+standards:
+  - standard_id: std:owasp_asvs
+    status: active
+    rationale: Core security verification standard for web applications
+    chapters_active: [V1, V2, V3, V4, V5, V6]
+
+  - standard_id: std:wcag_2_1
+    status: active
+    rationale: Accessibility requirements for educational platforms used by children
+
+  - standard_id: std:gdpr
+    status: active
+    rationale: Privacy compliance for handling student data (children = special category)
+
+  - standard_id: std:core_web_vitals
+    status: active
+    rationale: Performance metrics critical for LMS user experience
+
+  - standard_id: std:arc42
+    status: active
+    rationale: Architecture quality model for maintainable codebase
+    focus_areas: [security, maintainability, reliability]
+
+  - standard_id: std:gestalt
+    status: active
+    rationale: Visual design principles for consistent UI
+
+  - standard_id: std:hicks_law
+    status: active
+    rationale: UX optimization for minimizing cognitive load
+
+# Deferred Standards (Future)
+deferred:
+  - standard_id: std:iso_27001
+    rationale: Enterprise certification - not needed for MVP
+
+  - standard_id: std:owasp_top_10
+    rationale: Covered by ASVS - redundant for MVP
+
+  - standard_id: std:xapi
+    rationale: Learning data standard - phase 2
+
+# Statistics
+statistics:
+  total_standards: 10
+  active_standards: 7
+  deferred_standards: 3
+  total_properties: 33
+  active_properties: 33
+  verification_distribution:
+    library: 14
+    custom_property: 16
+    ai_audit: 3
+    manual: 0

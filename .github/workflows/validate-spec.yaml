@@ -1,0 +1,45 @@
+name: Validate Spec
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'spec/**'
+      - 'schema/**'
+      - 'scripts/**'
+  pull_request:
+    paths:
+      - 'spec/**'
+      - 'schema/**'
+      - 'scripts/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml
+
+      - name: Validate spec files
+        run: |
+          python3 scripts/validate_spec.py
+
+      - name: Check YAML syntax
+        run: |
+          for f in spec/**/*.yaml; do
+            python3 -c "import yaml; yaml.safe_load(open('$f'))" || {
+              echo "❌ Invalid YAML: $f"
+              exit 1
+            }
+            echo "✓ $f"
+          done

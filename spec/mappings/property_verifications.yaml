@@ -1,0 +1,120 @@
+# Property Verification Configurations
+# Reference: https://standard-driven.dev/spec/mappings/property_verifications.yaml
+# Schema: ../schema/sdd-spec.schema.json
+# Purpose: Define how each property is verified (library, custom_property, ai_audit, manual)
+
+verifications:
+
+  # ASVS V2 - Authentication (custom_property)
+  - property_id: prop:password_length_min_12
+    verification_type: custom_property
+    test_module: Rivena.ASVS.V2.ChapterTest
+    generator: "StreamData.string(:alphanumeric, length: 0..128)"
+
+  - property_id: prop:password_complexity
+    verification_type: custom_property
+    test_module: Rivena.ASVS.V2.ChapterTest
+    generator: "StreamData.string(:alphanumeric, length: 8..64)"
+
+  - property_id: prop:password_history
+    verification_type: custom_property
+    test_module: Rivena.ASVS.V2.ChapterTest
+    generator: "StreamData.list_of(StreamData.string(:alphanumeric, length: 8..32), length: 5..10)"
+
+  - property_id: prop:account_lockout
+    verification_type: custom_property
+    test_module: Rivena.ASVS.V2.ChapterTest
+    generator: "StreamData.integer(0..10)"
+
+  # ASVS V3 - Session Management
+  - property_id: prop:session_id_length
+    verification_type: custom_property
+    test_module: Rivena.ASVS.V3.SessionTest
+    generator: "StreamData.binary(length: 16..64)"
+
+  - property_id: prop:session_timeout
+    verification_type: custom_property
+    test_module: Rivena.ASVS.V3.SessionTest
+    generator: "StreamData.integer(0..3600)"
+
+  - property_id: prop:secure_cookie_flags
+    verification_type: library
+    tool_id: tool:sobelow
+
+  # ASVS V4 - Authorization
+  - property_id: prop:role_based_access
+    verification_type: custom_property
+    test_module: Rivena.ASVS.V4.AuthorizationTest
+    generator: "StreamData.one_of([StreamData.constant(:admin), StreamData.constant(:user)])"
+
+  - property_id: prop:horizontal_privilege_escalation
+    verification_type: custom_property
+    test_module: Rivena.ASVS.V4.AuthorizationTest
+    generator: "StreamData.tuple({StreamData.integer(), StreamData.integer()})"
+
+  - property_id: prop:tenant_isolation
+    verification_type: custom_property
+    test_module: Rivena.ASVS.V4.AuthorizationTest
+    generator: "StreamData.tuple({StreamData.integer(), StreamData.integer()})"
+
+  # ASVS V5 - Input Validation
+  - property_id: prop:input_validation_server_side
+    verification_type: custom_property
+    test_module: Rivena.ASVS.V5.InputValidationTest
+    generator: "StreamData.string(:printable, length: 0..1000)"
+
+  - property_id: prop:sql_injection_prevention
+    verification_type: library
+    tool_id: tool:sobelow
+
+  - property_id: prop:xss_prevention
+    verification_type: library
+    tool_id: tool:sobelow
+
+  # WCAG 2.1 - Accessibility (library)
+  - property_id: prop:img_has_alt
+    verification_type: library
+    tool_id: tool:axe_core
+
+  - property_id: prop:form_labels
+    verification_type: library
+    tool_id: tool:axe_core
+
+  - property_id: prop:keyboard_accessible
+    verification_type: library
+    tool_id: tool:axe_core
+
+  - property_id: prop:focus_visible
+    verification_type: library
+    tool_id: tool:axe_core
+
+  - property_id: prop:color_contrast
+    verification_type: library
+    tool_id: tool:axe_core
+
+  # GDPR - Privacy (ai_audit / custom_property)
+  - property_id: prop:data_minimization
+    verification_type: ai_audit
+    ai_agent: gdpr_compliance
+
+  - property_id: prop:right_to_erasure
+    verification_type: custom_property
+    test_module: Rivena.GDPR.ErasureTest
+    generator: "StreamData.integer()"
+
+  - property_id: prop:consent_workflow
+    verification_type: ai_audit
+    ai_agent: gdpr_compliance
+
+  # Core Web Vitals - Performance (library)
+  - property_id: prop:lcp_under_2_5s
+    verification_type: library
+    tool_id: tool:lighthouse
+
+  - property_id: prop:cls_under_0_1
+    verification_type: library
+    tool_id: tool:lighthouse
+
+  - property_id: prop:inp_under_200ms
+    verification_type: library
+    tool_id: tool:lighthouse

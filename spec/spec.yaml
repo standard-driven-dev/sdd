@@ -1,0 +1,77 @@
+# SDD Specification Index
+# Reference: https://standard-driven.dev/spec/spec.yaml
+# 
+# This is the entry point for the SDD specification system.
+# It references all modular spec files and provides an overview.
+
+metadata:
+  version: "1.0.0"
+  updated: "2026-02-18"
+  description: "Standard-Driven Development specification system"
+  schema: "../schema/sdd-spec.schema.json"
+
+# Modular spec files
+catalog:
+  standards: ./catalog/standards.yaml
+  properties: ./catalog/properties.yaml
+  tools: ./catalog/tools.yaml
+
+mappings:
+  property_to_standard: ./mappings/property_to_standard.yaml
+  property_verifications: ./mappings/property_verifications.yaml
+
+activation:
+  mvp: ./activation/mvp.yaml
+
+# Overview statistics
+statistics:
+  standards_count: 10
+  properties_count: 33
+  tools_count: 10
+  mappings_count: 33
+  verification_types:
+    - library
+    - custom_property
+    - ai_audit
+    - manual
+
+# Standards by domain
+domains:
+  security:
+    - std:owasp_asvs
+    - std:owasp_top_10
+    - std:iso_27001
+  accessibility:
+    - std:wcag_2_1
+  privacy:
+    - std:gdpr
+  performance:
+    - std:core_web_vitals
+  quality:
+    - std:arc42
+  ux:
+    - std:gestalt
+    - std:hicks_law
+  learning:
+    - std:xapi
+
+# Tool categories
+tool_categories:
+  SAST:
+    - tool:sobelow
+    - tool:semgrep
+  DAST:
+    - tool:owasp_zap
+  scanner:
+    - tool:gitleaks
+  accessibility:
+    - tool:axe_core
+  e2e:
+    - tool:playwright
+  linter:
+    - tool:credo
+    - tool:dialyxir
+  audit:
+    - tool:lighthouse
+  testing:
+    - tool:propcheck

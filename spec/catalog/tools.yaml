@@ -1,0 +1,155 @@
+# Verification Tools Catalog
+# Reference: https://standard-driven.dev/spec/catalog/tools.yaml
+# Schema: ../schema/sdd-spec.schema.json
+
+tools:
+
+  # ---------------------------------------------------------------------------
+  # SAST - Static Application Security Testing
+  # ---------------------------------------------------------------------------
+  - id: tool:sobelow
+    name: Sobelow
+    type: SAST
+    language: Elixir
+    description: Security-focused static analysis tool for Phoenix and Plug applications
+    capabilities:
+      - XSS detection
+      - CSRF token validation
+      - SQL injection detection
+      - Directory traversal
+      - Insecure configuration
+      - Hardcoded secrets
+    standards: [std:owasp_asvs, std:owasp_top_10]
+    ci_command: mix sobelow --config
+    rules_count: 40+
+
+  - id: tool:semgrep
+    name: Semgrep
+    type: SAST
+    language: Multi-language
+    description: Fast, open-source static analysis engine for finding bugs and enforcing code standards
+    capabilities:
+      - Secrets detection
+      - OWASP Top 10 patterns
+      - Code quality anti-patterns
+      - Custom rule writing
+    standards: [std:owasp_asvs, std:owasp_top_10]
+    ci_command: semgrep --config auto
+    rules_count: 2000+
+
+  - id: tool:gitleaks
+    name: Gitleaks
+    type: scanner
+    description: Scan git repositories for secrets, passwords, and sensitive files
+    capabilities:
+      - Git history scanning
+      - Pre-commit hooks
+      - Custom regex patterns
+    standards: [std:owasp_asvs]
+    ci_command: gitleaks detect --verbose
+
+  # ---------------------------------------------------------------------------
+  # DAST - Dynamic Application Security Testing
+  # ---------------------------------------------------------------------------
+  - id: tool:owasp_zap
+    name: OWASP ZAP
+    type: DAST
+    description: World's most widely used web application security scanner
+    capabilities:
+      - Baseline scan
+      - Full scan
+      - Active/passive scanning
+      - API security testing
+    standards: [std:owasp_asvs, std:owasp_top_10]
+    ci_command: zap-baseline.py -t http://localhost:4000
+
+  # ---------------------------------------------------------------------------
+  # Accessibility Testing
+  # ---------------------------------------------------------------------------
+  - id: tool:axe_core
+    name: axe-core
+    type: accessibility
+    description: Accessibility engine for automated testing of web applications
+    capabilities:
+      - WCAG 2.1 validation
+      - ARIA validation
+      - Color contrast checking
+      - Semantic HTML validation
+      - Keyboard navigation
+    standards: [std:wcag_2_1]
+    integration: playwright
+    rules_count: 51
+
+  - id: tool:playwright
+    name: Playwright
+    type: e2e
+    description: Cross-browser automation for end-to-end testing
+    capabilities:
+      - Browser automation
+      - Visual regression testing
+      - Accessibility testing (via axe-core)
+      - API testing
+      - Mobile emulation
+    standards: [std:wcag_2_1]
+    ci_command: npx playwright test
+
+  # ---------------------------------------------------------------------------
+  # Linters & Code Quality
+  # ---------------------------------------------------------------------------
+  - id: tool:credo
+    name: Credo
+    type: linter
+    language: Elixir
+    description: Static analysis code linter for Elixir focusing on code consistency
+    capabilities:
+      - Code consistency checks
+      - Complexity analysis
+      - Anti-pattern detection
+      - Refactoring suggestions
+    standards: [std:arc42]
+    ci_command: mix credo --strict
+
+  - id: tool:dialyxir
+    name: Dialyxir
+    type: linter
+    language: Elixir
+    description: Type checker for Elixir using Dialyzer
+    capabilities:
+      - Type inference
+      - Contract checking
+      - Unused functions
+      - Race condition detection
+    standards: [std:arc42]
+    ci_command: mix dialyzer
+
+  # ---------------------------------------------------------------------------
+  # Performance Testing
+  # ---------------------------------------------------------------------------
+  - id: tool:lighthouse
+    name: Google Lighthouse
+    type: audit
+    description: Automated auditing tool for performance, accessibility, SEO, and best practices
+    capabilities:
+      - LCP measurement
+      - CLS measurement
+      - INP measurement
+      - Performance scoring
+      - Accessibility scoring
+    standards: [std:core_web_vitals]
+    ci_command: lighthouse --preset=desktop --output=json
+
+  # ---------------------------------------------------------------------------
+  # Property-Based Testing
+  # ---------------------------------------------------------------------------
+  - id: tool:propcheck
+    name: PropCheck
+    type: testing
+    language: Elixir
+    description: Property-based testing library (Erlang QuickCheck port) for generating thousands of test cases
+    capabilities:
+      - Property-based testing
+      - Stateful testing (StateM)
+      - Automatic test case shrinking
+      - Custom generators
+    standards: [std:owasp_asvs, std:wcag_2_1]
+    ci_command: mix test --only property

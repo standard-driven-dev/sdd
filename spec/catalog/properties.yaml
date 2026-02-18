@@ -1,0 +1,243 @@
+# Properties Catalog
+# Reference: https://standard-driven.dev/spec/catalog/properties.yaml
+# Schema: ../schema/sdd-spec.schema.json
+# Note: This is a representative sample. Full catalog has 300+ properties.
+
+properties:
+
+  # ---------------------------------------------------------------------------
+  # ASVS V2 - Authentication (Sample)
+  # ---------------------------------------------------------------------------
+  - id: prop:password_length_min_12
+    name: Password minimum length 12 characters
+    description: Ensures all user passwords are at least 12 characters
+    standard_id: std:owasp_asvs
+    requirement_ref: V6.2.1
+    verification_type: custom_property
+    severity: high
+    chapter: V2
+
+  - id: prop:password_complexity
+    name: Password complexity requirements
+    description: Passwords must contain uppercase, lowercase, numbers, and special characters
+    standard_id: std:owasp_asvs
+    requirement_ref: V6.2.3
+    verification_type: custom_property
+    severity: high
+    chapter: V2
+
+  - id: prop:password_history
+    name: Password history enforcement
+    description: System must remember last N passwords to prevent reuse
+    standard_id: std:owasp_asvs
+    requirement_ref: V6.2.5
+    verification_type: custom_property
+    severity: medium
+    chapter: V2
+
+  - id: prop:account_lockout
+    name: Account lockout after failed attempts
+    description: Lock account after 5+ failed login attempts for 15+ minutes
+    standard_id: std:owasp_asvs
+    requirement_ref: V2.2.1
+    verification_type: custom_property
+    severity: high
+    chapter: V2
+
+  # ---------------------------------------------------------------------------
+  # ASVS V3 - Session Management (Sample)
+  # ---------------------------------------------------------------------------
+  - id: prop:session_id_length
+    name: Session identifier length
+    description: Session IDs must be at least 128 bits (16 bytes) of random data
+    standard_id: std:owasp_asvs
+    requirement_ref: V3.5.1
+    verification_type: custom_property
+    severity: high
+    chapter: V3
+
+  - id: prop:session_timeout
+    name: Session timeout
+    description: Inactive sessions must timeout within 30 minutes
+    standard_id: std:owasp_asvs
+    requirement_ref: V3.4.1
+    verification_type: custom_property
+    severity: medium
+    chapter: V3
+
+  - id: prop:secure_cookie_flags
+    name: Secure cookie flags
+    description: Cookies must have Secure, HttpOnly, and SameSite attributes
+    standard_id: std:owasp_asvs
+    requirement_ref: V3.6.1
+    verification_type: library
+    severity: high
+    chapter: V3
+    tool_id: tool:sobelow
+
+  # ---------------------------------------------------------------------------
+  # ASVS V4 - Authorization (Sample)
+  # ---------------------------------------------------------------------------
+  - id: prop:role_based_access
+    name: Role-based access control
+    description: Access to resources must be controlled by user roles
+    standard_id: std:owasp_asvs
+    requirement_ref: V4.1.2
+    verification_type: custom_property
+    severity: critical
+    chapter: V4
+
+  - id: prop:horizontal_privilege_escalation
+    name: Prevent horizontal privilege escalation
+    description: Users must not access other users' resources of same privilege level
+    standard_id: std:owasp_asvs
+    requirement_ref: V4.1.3
+    verification_type: custom_property
+    severity: critical
+    chapter: V4
+
+  - id: prop:tenant_isolation
+    name: Multi-tenant data isolation
+    description: In multi-tenant systems, data must be isolated by tenant
+    standard_id: std:owasp_asvs
+    requirement_ref: V4.1.1
+    verification_type: custom_property
+    severity: critical
+    chapter: V4
+
+  # ---------------------------------------------------------------------------
+  # ASVS V5 - Input Validation (Sample)
+  # ---------------------------------------------------------------------------
+  - id: prop:input_validation_server_side
+    name: Server-side input validation
+    description: All input must be validated on the server, not just client-side
+    standard_id: std:owasp_asvs
+    requirement_ref: V5.1.1
+    verification_type: custom_property
+    severity: high
+    chapter: V5
+
+  - id: prop:sql_injection_prevention
+    name: SQL injection prevention
+    description: All queries must use parameterized queries or ORM
+    standard_id: std:owasp_asvs
+    requirement_ref: V5.3.1
+    verification_type: library
+    severity: critical
+    chapter: V5
+    tool_id: tool:sobelow
+
+  - id: prop:xss_prevention
+    name: Cross-site scripting prevention
+    description: User input must be escaped before output
+    standard_id: std:owasp_asvs
+    requirement_ref: V5.5.1
+    verification_type: library
+    severity: critical
+    chapter: V5
+    tool_id: tool:sobelow
+
+  # ---------------------------------------------------------------------------
+  # WCAG 2.1 - Accessibility (Sample)
+  # ---------------------------------------------------------------------------
+  - id: prop:img_has_alt
+    name: Images have alt text
+    description: All img elements must have alt attribute
+    standard_id: std:wcag_2_1
+    requirement_ref: 1.1.1
+    verification_type: library
+    severity: critical
+    success_criterion: 1.1.1
+
+  - id: prop:form_labels
+    name: Form inputs have labels
+    description: All form inputs must have associated labels
+    standard_id: std:wcag_2_1
+    requirement_ref: 1.3.1
+    verification_type: library
+    severity: critical
+    success_criterion: 1.3.1
+
+  - id: prop:keyboard_accessible
+    name: Keyboard accessibility
+    description: All interactive elements must be accessible via keyboard
+    standard_id: std:wcag_2_1
+    requirement_ref: 2.1.1
+    verification_type: library
+    severity: critical
+    success_criterion: 2.1.1
+
+  - id: prop:focus_visible
+    name: Focus indicator visible
+    description: Keyboard focus indicator must be visible
+    standard_id: std:wcag_2_1
+    requirement_ref: 2.4.7
+    verification_type: library
+    severity: high
+    success_criterion: 2.4.7
+
+  - id: prop:color_contrast
+    name: Color contrast ratio
+    description: Text must have minimum 4.5:1 contrast ratio (AA)
+    standard_id: std:wcag_2_1
+    requirement_ref: 1.4.3
+    verification_type: library
+    severity: high
+    success_criterion: 1.4.3
+
+  # ---------------------------------------------------------------------------
+  # GDPR - Privacy (Sample)
+  # ---------------------------------------------------------------------------
+  - id: prop:data_minimization
+    name: Data minimization
+    description: Only collect data that is necessary for the stated purpose
+    standard_id: std:gdpr
+    requirement_ref: Art. 5.1.c
+    verification_type: ai_audit
+    severity: high
+
+  - id: prop:right_to_erasure
+    name: Right to erasure (right to be forgotten)
+    description: Users must be able to request deletion of their data
+    standard_id: std:gdpr
+    requirement_ref: Art. 17
+    verification_type: custom_property
+    severity: critical
+
+  - id: prop:consent_workflow
+    name: Consent workflow
+    description: Consent must be explicit, informed, and withdrawable
+    standard_id: std:gdpr
+    requirement_ref: Art. 7
+    verification_type: ai_audit
+    severity: critical
+
+  # ---------------------------------------------------------------------------
+  # Core Web Vitals - Performance (Sample)
+  # ---------------------------------------------------------------------------
+  - id: prop:lcp_under_2_5s
+    name: Largest Contentful Paint under 2.5s
+    description: LCP must occur within 2.5 seconds of page load
+    standard_id: std:core_web_vitals
+    requirement_ref: LCP
+    verification_type: library
+    severity: medium
+    threshold: 2500
+
+  - id: prop:cls_under_0_1
+    name: Cumulative Layout Shift under 0.1
+    description: Layout shifts must not exceed 0.1 during page lifecycle
+    standard_id: std:core_web_vitals
+    requirement_ref: CLS
+    verification_type: library
+    severity: medium
+    threshold: 0.1
+
+  - id: prop:inp_under_200ms
+    name: Interaction to Next Paint under 200ms
+    description: INP must be under 200ms for responsive UX
+    standard_id: std:core_web_vitals
+    requirement_ref: INP
+    verification_type: library
+    severity: medium
+    threshold: 200

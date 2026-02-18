@@ -1,0 +1,109 @@
+# Standards Catalog
+# Reference: https://standard-driven.dev/spec/catalog/standards.yaml
+# Schema: ../schema/sdd-spec.schema.json
+
+standards:
+
+  # ---------------------------------------------------------------------------
+  # Security Standards
+  # ---------------------------------------------------------------------------
+  - id: std:owasp_asvs
+    name: OWASP Application Security Verification Standard 5.0.0
+    issuer: OWASP
+    version: "5.0.0"
+    domain: security
+    description: A comprehensive standard for verifying web application security. Defines 14 chapters of security requirements.
+    url: https://owasp.org/www-project-application-security-verification-standard/
+    chapters: 14
+    requirements: 286
+
+  - id: std:owasp_top_10
+    name: OWASP Top 10 2021
+    issuer: OWASP
+    version: "2021"
+    domain: security
+    description: The most critical web application security risks
+    url: https://owasp.org/www-project-top-ten/
+
+  - id: std:iso_27001
+    name: ISO/IEC 27001 Information Security Management
+    issuer: ISO
+    version: "2022"
+    domain: security
+    description: International standard for information security management systems (ISMS)
+    url: https://www.iso.org/standard/27001
+
+  # ---------------------------------------------------------------------------
+  # Accessibility Standards
+  # ---------------------------------------------------------------------------
+  - id: std:wcag_2_1
+    name: Web Content Accessibility Guidelines 2.1 Level AA
+    issuer: W3C
+    version: "2.1"
+    domain: accessibility
+    description: International standard for making web content accessible to people with disabilities
+    url: https://www.w3.org/TR/WCAG21/
+    levels: [A, AA, AAA]
+
+  # ---------------------------------------------------------------------------
+  # Privacy Standards
+  # ---------------------------------------------------------------------------
+  - id: std:gdpr
+    name: General Data Protection Regulation (GDPR)
+    issuer: European Union
+    version: "2016/679"
+    domain: privacy
+    description: EU regulation on data protection and privacy
+    url: https://gdpr.eu/
+
+  # ---------------------------------------------------------------------------
+  # Performance Standards
+  # ---------------------------------------------------------------------------
+  - id: std:core_web_vitals
+    name: Core Web Vitals
+    issuer: Google
+    version: "2024"
+    domain: performance
+    description: Google's set of metrics measuring real-world user experience
+    url: https://web.dev/vitals/
+    metrics: [LCP, INP, CLS]
+
+  # ---------------------------------------------------------------------------
+  # Quality Standards
+  # ---------------------------------------------------------------------------
+  - id: std:arc42
+    name: arc42 Quality Model (Q42)
+    issuer: arc42
+    version: "8.0"
+    domain: quality
+    description: Quality model for software architecture documentation and evaluation
+    url: https://arc42.org/
+    categories: 8
+
+  # ---------------------------------------------------------------------------
+  # UX Standards
+  # ---------------------------------------------------------------------------
+  - id: std:gestalt
+    name: Gestalt Design Principles
+    issuer: Psychological research
+    domain: ux
+    description: Principles describing how humans perceive visual elements
+    principles: [proximity, similarity, closure, continuity, figure-ground]
+
+  - id: std:hicks_law
+    name: Hick's Law
+    issuer: William Edmund Hick
+    domain: ux
+    description: The time it takes to make a decision increases with the number and complexity of choices
+    url: https://en.wikipedia.org/wiki/Hick%27s_law
+
+  # ---------------------------------------------------------------------------
+  # Data Standards
+  # ---------------------------------------------------------------------------
+  - id: std:xapi
+    name: Experience API (xAPI)
+    issuer: ADL
+    version: "1.0.3"
+    domain: learning
+    description: Standard for tracking learning experiences
+    url: https://adlnet.github.io/xAPI-Spec/

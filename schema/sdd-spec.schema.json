@@ -1,0 +1,289 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://standard-driven.dev/schemas/sdd-spec.json",
+  "title": "SDD Specification Schema",
+  "description": "Schema for Standard-Driven Development specification files",
+
+  "definitions": {
+
+    "Standard": {
+      "type": "object",
+      "required": ["id", "name", "issuer"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^std:",
+          "description": "Unique identifier (e.g., std:owasp_asvs)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name (e.g., OWASP ASVS 5.0.0)"
+        },
+        "issuer": {
+          "type": "string",
+          "description": "Issuing organization (e.g., OWASP, W3C, ISO)"
+        },
+        "version": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string",
+          "enum": ["security", "accessibility", "performance", "privacy", "quality", "ux", "governance"]
+        },
+        "description": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+
+    "Property": {
+      "type": "object",
+      "required": ["id", "name", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^prop:",
+          "description": "Unique identifier (e.g., prop:password_length_min_12)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable name"
+        },
+        "description": {
+          "type": "string",
+          "description": "What this property ensures"
+        },
+        "standard_id": {
+          "type": "string",
+          "pattern": "^std:",
+          "description": "Reference to source standard"
+        },
+        "requirement_ref": {
+          "type": "string",
+          "description": "Standard-specific reference (e.g., V6.2.1, Art. 17)"
+        },
+        "verification_type": {
+          "type": "string",
+          "enum": ["library", "custom_property", "ai_audit", "manual"],
+          "description": "How this property is verified"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low", "informational"],
+          "default": "medium"
+        }
+      }
+    },
+
+    "VerificationConfig": {
+      "type": "object",
+      "required": ["property_id", "verification_type"],
+      "properties": {
+        "property_id": {
+          "type": "string",
+          "pattern": "^prop:"
+        },
+        "verification_type": {
+          "type": "string",
+          "enum": ["library", "custom_property", "ai_audit", "manual"]
+        },
+        "tool_id": {
+          "type": "string",
+          "pattern": "^tool:",
+          "description": "For library type verifications"
+        },
+        "test_module": {
+          "type": "string",
+          "description": "For custom_property type (e.g., Rivena.ASVS.V2.ChapterTest)"
+        },
+        "generator": {
+          "type": "string",
+          "description": "StreamData generator string (e.g., StreamData.string(length: 0..100))"
+        },
+        "ai_agent": {
+          "type": "string",
+          "description": "For ai_audit type"
+        },
+        "human_reviewer": {
+          "type": "string",
+          "description": "For manual type"
+        }
+      },
+      "oneOf": [
+        { "$ref": "#/definitions/LibraryVerification" },
+        { "$ref": "#/definitions/CustomPropertyVerification" },
+        { "$ref": "#/definitions/AIAuditVerification" },
+        { "$ref": "#/definitions/ManualVerification" }
+      ]
+    },
+
+    "LibraryVerification": {
+      "type": "object",
+      "required": ["property_id", "verification_type", "tool_id"],
+      "properties": {
+        "property_id": { "type": "string", "pattern": "^prop:" },
+        "verification_type": { "const": "library" },
+        "tool_id": { "type": "string", "pattern": "^tool:" }
+      }
+    },
+
+    "CustomPropertyVerification": {
+      "type": "object",
+      "required": ["property_id", "verification_type", "test_module"],
+      "properties": {
+        "property_id": { "type": "string", "pattern": "^prop:" },
+        "verification_type": { "const": "custom_property" },
+        "test_module": { "type": "string" },
+        "generator": { "type": "string" }
+      }
+    },
+
+    "AIAuditVerification": {
+      "type": "object",
+      "required": ["property_id", "verification_type", "ai_agent"],
+      "properties": {
+        "property_id": { "type": "string", "pattern": "^prop:" },
+        "verification_type": { "const": "ai_audit" },
+        "ai_agent": { "type": "string" }
+      }
+    },
+
+    "ManualVerification": {
+      "type": "object",
+      "required": ["property_id", "verification_type", "human_reviewer"],
+      "properties": {
+        "property_id": { "type": "string", "pattern": "^prop:" },
+        "verification_type": { "const": "manual" },
+        "human_reviewer": { "type": "string" },
+        "frequency": {
+          "type": "string",
+          "enum": ["per_commit", "weekly", "monthly", "quarterly", "annually"]
+        }
+      }
+    },
+
+    "Tool": {
+      "type": "object",
+      "required": ["id", "name", "type"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^tool:",
+          "description": "Unique identifier (e.g., tool:sobelow)"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["SAST", "DAST", "linter", "e2e", "scanner", "audit"]
+        },
+        "language": {
+          "type": "string"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "ci_command": {
+          "type": "string",
+          "description": "Command to run in CI"
+        },
+        "standards": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^std:" }
+        }
+      }
+    },
+
+    "PropertyStandardMapping": {
+      "type": "object",
+      "required": ["property_id", "standard_id"],
+      "properties": {
+        "property_id": {
+          "type": "string",
+          "pattern": "^prop:"
+        },
+        "standard_id": {
+          "type": "string",
+          "pattern": "^std:"
+        },
+        "requirement": {
+          "type": "string",
+          "description": "Specific requirement reference (e.g., V6.2.1)"
+        }
+      }
+    },
+
+    "Activation": {
+      "type": "object",
+      "required": ["standards", "properties"],
+      "properties": {
+        "standards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["standard_id", "status"],
+            "properties": {
+              "standard_id": { "type": "string", "pattern": "^std:" },
+              "status": { "type": "string", "enum": ["active", "deferred"] },
+              "rationale": { "type": "string" }
+            }
+          }
+        },
+        "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["property_id", "status"],
+            "properties": {
+              "property_id": { "type": "string", "pattern": "^prop:" },
+              "status": { "type": "string", "enum": ["active", "deferred"] }
+            }
+          }
+        }
+      }
+    },
+
+    "SDDSpec": {
+      "type": "object",
+      "required": ["version", "standards", "properties", "verifications"],
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date"
+        },
+        "standards": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Standard" }
+        },
+        "properties": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Property" }
+        },
+        "tools": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Tool" }
+        },
+        "mappings": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/PropertyStandardMapping" }
+        },
+        "verifications": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/VerificationConfig" }
+        },
+        "activation": {
+          "$ref": "#/definitions/Activation"
+        }
+      }
+    }
+  }
+}
